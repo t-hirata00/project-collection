@@ -10,7 +10,7 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - DATABASE_URL = postgresql://user:password@db:5432/scraping_db
+      - DATABASE_URL=postgresql://user:password@db:5432/scraping_db
     depends_on:
       - db
 
@@ -29,7 +29,7 @@ services:
 
   # データベース
   db:
-    image: postgres:larest
+    image: postgres:latest
     container_name: scraping_app_db
     environment:
       POSTGRES_USER: user
