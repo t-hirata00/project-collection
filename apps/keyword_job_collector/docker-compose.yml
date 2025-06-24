@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # バックエンド
+  backend:
+    build: ./backend
+    container_name: scraping_app_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/scraping_db
+    depends_on:
+      - db
+
+  # フロントエンド
+  frontend:
+    build: ./frontend
+    container_name: scraping_app_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+  # データベース
+  db:
+    image: postgres:latest
+    container_name: scraping_app_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: scraping_db
+    ports:
+      - "5432:5432"
+  
+volumes:
+  postgres_data:
